@@ -71,7 +71,7 @@ end)
 -- Função para validar o código e executar o script
 Button.MouseButton1Click:Connect(function()
     local code = TextBox.Text
-    if code == "AZERTYteamGiGXxX4V3" then
+    if code == "455@78AqWTeam-cOOlkidxTeam-XGIGA" then
         StatusLabel.Text = "Code Accepted!"
         -- Executar o script do URL fornecido
         local scriptUrl = "https://raw.githubusercontent.com/ananas12-cell/yay/refs/heads/main/yay"
@@ -84,7 +84,7 @@ end)
 
 -- Função para copiar o link para a área de transferência
 CodeLinkButton.MouseButton1Click:Connect(function()
-    local codeLink = "https://raw.githubusercontent.com/ananas12-cell/Key-gui-v3/refs/heads/main/Key"
+    local codeLink = "https://raw.githubusercontent.com/ananas12-cell/......SECRET/refs/heads/main/SOSKIBDI"
     
     -- Copiar para a área de transferência (em Roblox não há API direta para copiar, então, podemos exibir uma mensagem)
     setclipboard(codeLink)
