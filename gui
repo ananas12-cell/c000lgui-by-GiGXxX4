@@ -1,1 +1,109 @@
-upd
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Parent = player.PlayerGui
+
+-- Criar a janela de scroll
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Size = UDim2.new(0, 300, 0, 400)  -- Tamanho do scroll
+scrollFrame.Position = UDim2.new(0.5, -150, 0.3, 0)  -- Posição do scroll
+scrollFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor vermelha
+scrollFrame.BackgroundTransparency = 0.5
+scrollFrame.Parent = gui
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)  -- Tamanho da área que vai rolar
+
+scrollFrame.ScrollBarThickness = 10  -- Espessura da barra de rolagem
+
+-- Função para executar scripts a partir de links
+local function executeScript(url)
+    local scriptContent = game:HttpGet(url)
+    local script = Instance.new("Script")
+    script.Source = scriptContent
+    script.Parent = game:GetService("StarterPlayer").StarterPlayerScripts
+    script.Disabled = false
+end
+
+-- Função para criar um botão dentro do ScrollFrame
+local function createButton(text, url, position)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 200, 0, 50)
+    button.Position = position
+    button.Text = text
+    button.Parent = scrollFrame
+
+    button.MouseButton1Click:Connect(function()
+        executeScript(url)
+    end)
+end
+
+-- Criando os botões para os links dos scripts
+createButton("IY", "https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", UDim2.new(0, 50, 0, 0))
+createButton("DEX", "https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt", UDim2.new(0, 50, 0, 60))
+createButton("energize r6", "https://pastebin.com/raw/5X3iugkW", UDim2.new(0, 50, 0, 120))
+createButton("kill all", "https://raw.githubusercontent.com/Seco53/FlingScript.lua/refs/heads/main/FlingingScript.lua", UDim2.new(0, 50, 0, 180))
+createButton("Script 5 - Pastebin", "https://pastebin.com/raw/yyyyyyyy", UDim2.new(0, 50, 0, 240))
+
+-- Atualizando o tamanho do CanvasSize para que o ScrollFrame possa rolar
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 300 + (60 * 5))  -- Ajuste conforme o número de botões criados
+
+-- Estilos do GUI
+gui.Name = "c00lgui by GiGXxX4 2025"
+gui.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor vermelha
+gui.BackgroundTransparency = 0.5
+
+-- Tornar o GUI móvel
+local dragging = false
+local dragInput, dragStart, startPos
+
+-- Função para atualizar a posição do GUI enquanto arrasta
+local function update(input)
+    local delta = input.Position - dragStart
+    gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+-- Detectar quando o mouse clica para começar a arrastar
+gui.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = gui.Position
+        input.Changed:Connect(function()
+            if not input.UserInputState == Enum.UserInputState.Change then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+-- Atualizar a posição enquanto o mouse move
+gui.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        update(input)
+    end
+end)
+
+-- Botão para diminuir o tamanho do GUI
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 50, 0, 50)
+minimizeButton.Position = UDim2.new(0, 250, 0, 0)  -- Posição do botão
+minimizeButton.Text = "_"
+minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor vermelha
+minimizeButton.Parent = gui
+
+minimizeButton.MouseButton1Click:Connect(function()
+    -- Diminuir o tamanho do GUI
+    gui.Size = UDim2.new(0, 150, 0, 200)  -- Novo tamanho
+    scrollFrame.Size = UDim2.new(0, 150, 0, 200)  -- Tamanho do scrollFrame após diminuir
+end)
+
+-- Botão para deletar o GUI
+local deleteButton = Instance.new("TextButton")
+deleteButton.Size = UDim2.new(0, 50, 0, 50)
+deleteButton.Position = UDim2.new(0, 300, 0, 0)  -- Posição do botão
+deleteButton.Text = "X"
+deleteButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor vermelha
+deleteButton.Parent = gui
+
+deleteButton.MouseButton1Click:Connect(function()
+    -- Deletar o GUI
+    gui:Destroy()
+end)
